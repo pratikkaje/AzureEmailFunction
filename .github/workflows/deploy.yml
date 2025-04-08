@@ -11,22 +11,25 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
       with:
-        node-version: '14'
+        dotnet-version: '8.0.x'
 
-    - name: Install dependencies
-      run: npm install --loglevel verbose
+    - name: Restore dependencies
+      run: dotnet restore
 
     - name: Build project
-      run: npm run build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish
+      run: dotnet publish --configuration Release --output ./publish
 
     - name: Deploy to Azure Functions
       uses: Azure/functions-action@v1
       with:
-        app-name: SendGridEmailService
+        app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        package: ./publish
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-        package: .
