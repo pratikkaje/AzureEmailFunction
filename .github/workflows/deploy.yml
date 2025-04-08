@@ -30,17 +30,11 @@ jobs:
     - name: Zip publish folder
       run: cd publish && zip -r ../publish.zip . && cd ..
 
-    - name: Upload Publish ZIP
-      uses: actions/upload-artifact@v4
-      with:
-        name: publish-zip
-        path: publish.zip
-
     - name: Deploy to Azure Functions
       uses: Azure/functions-action@v1
       with:
         app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-        package: './publish.zip'
+        package: publish.zip
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
 
 
