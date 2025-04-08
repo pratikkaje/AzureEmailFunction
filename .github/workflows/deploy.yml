@@ -34,6 +34,9 @@ jobs:
         zip -r ../function.zip * > /dev/null
         cd ..
 
+    - name: List zip contents (diagnostic)
+      run: unzip -l function.zip
+
     - name: Upload Publish ZIP (Optional Artifact)
       uses: actions/upload-artifact@v4
       with:
