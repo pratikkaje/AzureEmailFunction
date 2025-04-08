@@ -27,6 +27,15 @@ jobs:
     - name: Publish
       run: dotnet publish --configuration Release --output ./publish
 
+    - name: Zip publish folder
+      run: zip -r publish.zip ./publish
+
+    - name: Upload Publish ZIP
+      uses: actions/upload-artifact@v4
+      with:
+        name: publish-zip
+        path: publish.zip
+
     - name: Deploy to Azure Functions
       uses: Azure/functions-action@v1
       with:
@@ -35,11 +44,5 @@ jobs:
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
       env:
         SCM_RUN_FROM_PACKAGE: 1
-
-    - name: Upload Publish ZIP
-      uses: actions/upload-artifact@v4
-      with:
-        name: publish-zip
-        path: ${{ github.workspace }}/path/to/temp_web_package.zip
 
 
