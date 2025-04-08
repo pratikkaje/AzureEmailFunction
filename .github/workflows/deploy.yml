@@ -27,10 +27,11 @@ jobs:
     - name: Publish project
       run: dotnet publish --configuration Release --output ./publish
 
-    - name: Zip published files (flat structure)
+    - name: Zip published files (correct root structure)
       run: |
+        sudo apt-get update && sudo apt-get install -y zip
         cd publish
-        zip -r ../function.zip .
+        zip -r ../function.zip * .[^.]* > /dev/null
         cd ..
 
     - name: Upload Publish ZIP (Optional Artifact)
