@@ -31,7 +31,7 @@ jobs:
       run: |
         sudo apt-get update && sudo apt-get install -y zip
         cd publish
-        zip -r ../function.zip * .[^.]* > /dev/null
+        zip -r ../function.zip . > /dev/null
         cd ..
 
     - name: Upload Publish ZIP (Optional Artifact)
