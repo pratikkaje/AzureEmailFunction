@@ -1,0 +1,2 @@
+# AzureEmailFunction
+Email Service App
