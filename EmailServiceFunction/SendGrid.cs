@@ -33,7 +33,7 @@ namespace EmailServiceFunction
             }
 
             // Deserialize the request body into an EmailRequest object
-            EmailRequest? emailRequest = 
+            EmailRequest? emailRequest =
                 JsonConvert.DeserializeObject<EmailRequest>(requestBody);
 
             if (emailRequest == null)
