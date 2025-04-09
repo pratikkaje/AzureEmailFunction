@@ -41,4 +41,9 @@ jobs:
         enable-oryx-build: true
         scm-do-build-during-deployment: true
 
+    - name: 'Check Deployment Status'
+      run: |
+        curl -u :${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} \
+          -X GET "https://${{ env.AZURE_FUNCTIONAPP_NAME }}.scm.azurewebsites.net/api/deployments"
+
 
