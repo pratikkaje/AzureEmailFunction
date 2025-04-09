@@ -1,4 +1,7 @@
-name: Build and deploy .NET 8 Azure Function App - SendGridEmailService
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy dotnet core app to Azure Function App - SendGridEmailService
 
 on:
   push:
@@ -7,30 +10,34 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '8.0.x'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '8.0.x' # set this to the dotnet version to use
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
-
+    
     steps:
-      - name: Checkout code
+      - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
 
-      - name: Setup .NET ${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v3
+      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore and Publish
+      - name: 'Resolve Project Dependencies Using Dotnet'
+        shell: pwsh
         run: |
-          dotnet restore EmailServiceFunction.csproj
-          dotnet publish EmailServiceFunction.csproj -c Release -o ./publish_output
-
-      - name: Deploy to Azure Function App
-        uses: azure/webapps-deploy@v2
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+      
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
         with:
           app-name: 'SendGridEmailService'
           slot-name: 'Production'
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1C21E35FB0D749779F9B0664F49EF93A }}
-          package: ./publish_output
