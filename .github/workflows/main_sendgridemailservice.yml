@@ -24,8 +24,8 @@ jobs:
 
       - name: Restore and Publish
         run: |
-          dotnet restore AzureEmailFunction.csproj
-          dotnet publish AzureEmailFunction.csproj -c Release -o ./publish_output
+          dotnet restore EmailServiceFunction.csproj
+          dotnet publish EmailServiceFunction.csproj -c Release -o ./publish_output
 
       - name: Deploy to Azure Function App
         uses: azure/webapps-deploy@v2
