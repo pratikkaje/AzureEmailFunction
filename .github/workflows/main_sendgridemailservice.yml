@@ -40,4 +40,4 @@ jobs:
           app-name: 'SendGridEmailService'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A1372947DF9A48198C2CB30B8F9591EA }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1C21E35FB0D749779F9B0664F49EF93A }}
