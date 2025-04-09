@@ -22,7 +22,7 @@ namespace EmailServiceFunction
             _logger = logger;
         }
 
-        [Function("SendGridEmail")]
+        [Function("sendemail")]
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
             // Read the request body as a string
